@@ -1,0 +1,18 @@
+body{
+    background-color: #222222;
+} 
+
+.rotate90 {
+  transform: rotate(90deg);
+}
+  
+.dekor {
+  float: left;
+  margin-left: -45px;
+  margin-top: 40px;
+} 
+ #list{
+   float: left;
+   margin-left: -30px;
+   right: 400px;
+ }
