@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Pigelin",
+        "pris": 33,
+        "url": "http://ica.se"
+    },
+    {
+        "name": "Godis",
+        "pris": 55,
+        "url": "http://hemakväll.se"
+    },
+    {
+        "name": "usb-c",
+        "pris": 1000,
+        "url": "http://skell-o-company.se"
+    }
+]

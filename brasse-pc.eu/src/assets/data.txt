@@ -1,0 +1,3 @@
+pigelin,33,http://ica.se
+godis,50,http://hemakväll.se
+protein,100,http://poroteinbolaget.se
