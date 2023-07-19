@@ -1,16 +1,48 @@
 <script setup lang="ts">
-import { RouterLink} from 'vue-router'
+import { RouterLink } from 'vue-router'
+import {  ref } from 'vue'
+import { getCookie, getUserNameFromCookie, removeToken} from '../components/CookiHandler'
+
+let isNotLogdin = false;
+const showMenu = ref(false);
+
+if (getCookie("token") === "") {
+  isNotLogdin = true;
+}
+
+function toggelUserMenu() {
+  showMenu.value = !showMenu.value;
+  console.log("Klick");
+}
+
+function Logout() {
+  removeToken();
+  console.log("Logout");
+  isNotLogdin = false;
+}
 </script>
 
 <template>
-    <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/list">List</RouterLink>
-    </nav>
+  <nav>
+    <RouterLink to="/">Home</RouterLink>
+    <RouterLink to="/about">About</RouterLink>
+    <RouterLink to="/list">List</RouterLink>
+    <RouterLink to="/login" v-if="isNotLogdin">Login</RouterLink>
+    <div class="user-menue" v-if="!isNotLogdin" @click="toggelUserMenu()">{{ getUserNameFromCookie() }}</div>
+    <div class="dropdown-menu" v-if="showMenu">
+    <ul>
+      <li><a @click="Logout">Logout</a></li>
+    </ul>
+  </div>
+  </nav>
 </template>
 
 <style scoped>
+.user-menue {
+  float: right;
+  padding: 0 1rem;
+}
+
 nav a.router-link-exact-active {
   color: var(--color-text);
 }
@@ -29,12 +61,38 @@ nav a:first-of-type {
   border: 0;
 }
 
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
+nav {
+  text-align: left;
+  margin-left: -1rem;
+  font-size: 1rem;
 
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+  padding: 1rem 0;
+  margin-top: 1rem;
+}
+
+/* Styla grundläggande länkar och ta bort liststilen */
+.dropdown-menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.dropdown-menu li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.dropdown-menu a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* Dölj menyns innehåll som standard */
+.dropdown-menu ul {
+
+}
+
+/* Visa menyns innehåll när musen hovrar över menyn */
+.dropdown-menu:hover ul {
+  display: block;
+}
 </style>
