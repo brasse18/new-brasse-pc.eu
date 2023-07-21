@@ -2,20 +2,9 @@ import axios from "axios";
 
 const server = "http://localhost";
 const port = "3000";
-const addres = "/save"
 
-export async function postData(indata: JSON) {
-  console.log(server + ":" + port + addres);
-  try {
-    const response = await axios.post(server + ":" + port + addres, indata);
-    console.log("Svar från servern:", response.data);
-  } catch (error) {
-    console.error("Det uppstod ett fel vid POST-begäran:", error);
-  }
-}
-
-export const handleSubmit = async (saveData: JSON, inToken: string) => {
-  const url = server + ":" + port + "/validate";
+export const postData = async (saveData: JSON, inToken: string) => {
+  const url = server + ":" + port + "/save";
   console.log(url);
   const data = {
     token: inToken,

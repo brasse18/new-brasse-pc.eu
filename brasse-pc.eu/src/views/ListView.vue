@@ -3,16 +3,14 @@ import {  onMounted, ref } from 'vue'
 import OList from '../components/OList.vue'
 import savedData from '../assets/json/data.json'
 import type { Item } from '../components/ItamObjekt'
-import { postData, handleSubmit} from "../components/save"
-import inputComp from "../components/Input.vue"
+import { postData} from "../components/save"
 import { getCookie } from '../components/CookiHandler'
 
 function saveData(inItem: Item) {
   console.log("endrat till: " + inItem.name);
   itemList.push(inItem);
   componentKey.value += 1;
-  postData(JSON.parse(JSON.stringify(itemList)));
-  handleSubmit(JSON.parse(JSON.stringify(itemList)), getCookie("token"));
+  postData(JSON.parse(JSON.stringify(itemList)), getCookie("token"));
 }
 
 //postData(savedData);
@@ -20,7 +18,7 @@ function saveData(inItem: Item) {
 const itemList: Array<Item> = [];
     savedData.forEach(x => {
     //console.log(x.name , x.pris , x.url);
-    const newItem: Item = { name: x.name, cost: x.cost, url: x.url };
+    const newItem: Item = { name: x.name, cost: Number(x.cost), url: x.url };
     itemList.push(newItem);
 })
 const componentKey = ref(0);
