@@ -13,5 +13,10 @@
         "name": "usb-c",
         "pris": 1000,
         "url": "http://skell-o-company.se"
+    },
+    {
+        "name": "Funny Item",
+        "pris": 69,
+        "url": "http://funnysite.com"
     }
 ]

@@ -9,7 +9,10 @@ import router from '@/router';
 let loginStatus: boolean = false;
 let credential: string = "";
 const componentKey = ref(0);
-setCookie('token', "", 7);
+if (getCookie("token") === "") {
+  setCookie('token', "", 7);
+}
+
 const token = ref(getCookie('token'));
 
 function setOnlineStatus(status: boolean) {
@@ -36,13 +39,14 @@ watch(token, (newValue, oldValue) => {
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
-    <Menue id="Menue" :key="componentKey"/>
+    <Menue id="Menue" :key="componentKey" />
   </header>
 
   <RouterView @loggedIn="setOnlineStatus" @credential="saveCredential" id="RouterView" />
 </template>
 
 <style scoped>
+
 header {
   line-height: 1.5;
   display: flex;

@@ -1,29 +1,33 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import {  ref } from 'vue'
+import {  ref, watch } from 'vue'
 import { getCookie, getUserNameFromCookie, removeToken} from '../components/CookiHandler'
 
-let isNotLogdin = false;
+const isNotLogdin = ref(false);
 const showMenu = ref(false);
+const userMenuKey = ref(0);
 
 if (getCookie("token") === "") {
-  isNotLogdin = true;
+  isNotLogdin.value = true;
 }
 
 function toggelUserMenu() {
   showMenu.value = !showMenu.value;
-  console.log("Klick");
+  //console.log("Klick");
 }
 
 function Logout() {
+  isNotLogdin.value = false;
   removeToken();
-  console.log("Logout");
-  isNotLogdin = false;
 }
+
+watch([isNotLogdin, showMenu], () => {
+  userMenuKey.value += 1;
+});
 </script>
 
 <template>
-  <nav>
+  <nav :key="userMenuKey">
     <RouterLink to="/">Home</RouterLink>
     <RouterLink to="/about">About</RouterLink>
     <RouterLink to="/list">List</RouterLink>

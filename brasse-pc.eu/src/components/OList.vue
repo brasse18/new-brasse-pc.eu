@@ -1,35 +1,43 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import ListItem from './ListRow.vue'
 import type { Item } from '../components/ItamObjekt'
-import inputComp from "../components/Input.vue"
-import buttonComp from "../components/Button.vue" 
-defineProps<{
+import buttonComp from "../components/Button.vue"
+import EditRow from './EditRow.vue'
+const props = defineProps<{
     msg: string
     arr: Array<Item>
 }>()
 
-let newItem: Item = {name: "", cost: 0, url: "" };
-const emit = defineEmits(['saveItem'])
+// let newItem: Item = {name: "", cost: 0, url: "" };
+const emit = defineEmits(['addItem', 'delItem', 'ediItem'])
+const showAddControl = ref(false);
+const showEditControl = ref(false);
+const editControlKey = ref(0);
+const arrKey = ref(0);
 
-function saveButton(){
-console.log("yyyyyyeeeeeeyyyyyyy");
-console.log("Name: " + newItem.name + " Cost: " + newItem.cost + " Url: " + newItem.url)
-emit('saveItem', newItem);
+function addItem(newItem: Item) {
+    emit('addItem', newItem);
 }
 
-function setNewName(input)
-{
-    newItem.name = input;
+function delItem(index: number) {
+    emit('delItem', index);
 }
 
-function setNewCost(input)
-{
-    newItem.cost = input;
+function editItem(index: number, item: Item) {
+    console.log("edit OList del nr: " + index);
+    console.log("nam: ", item.name);
+    console.log("------------");
+    emit("ediItem", index, item);
 }
 
-function setNewUrl(input)
-{
-    newItem.url = input;
+function toggelEdit() {
+    showEditControl.value = !showEditControl.value;
+    editControlKey.value += 1;
+}
+
+function toggelAdd() {
+    showAddControl.value = !showAddControl.value;
 }
 
 </script>
@@ -37,31 +45,51 @@ function setNewUrl(input)
 <template>
     <div class="greetings">
         <h1 class="green">{{ msg }}</h1>
-        <div v-for="item in arr">
-            <ListItem :item="item"/>
+        <div class="control">
+            <buttonComp @klick-Event="toggelAdd" label="Add" class="item" />
+            <buttonComp @klick-Event="toggelEdit" label="Edit" class="item" />
+        </div>
+
+        <div v-for="(item, index) in arr" :key="arrKey">
+            <ListItem @del-Event="delItem" @edi-Event="editItem" :item="item" :id="index" :edit="showEditControl"
+                :key="editControlKey" />
         </div>
     </div>
     <div>
-        <inputComp @get-string="setNewName" width="100%" class="item string"/>
-        <inputComp @get-string="setNewCost" width="100%" class="item cost"/>
-        <inputComp @get-string="setNewUrl" width="100%" class="item string"/>
-        <buttonComp @some-event="saveButton" label="Save"  class="item"/>
+        <EditRow @addItem="addItem" v-if="showAddControl" />
     </div>
-
 </template>
 
 <style scoped>
+.editRow {
+    margin-bottom: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-radius: 8px;
+}
+
+.control {
+    margin-bottom: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-radius: 8px;
+    background-color: #bebebe;
+    width: 80%;
+}
+
 .item {
     display: inline-block;
     padding-inline: 10px;
 }
+
 .cost {
     width: 10%;
 }
 
 .string {
     width: 30%;
-} 
+}
+
 h1 {
     font-weight: 500;
     font-size: 2.6rem;

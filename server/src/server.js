@@ -17,7 +17,7 @@ fs.readFile(filePath, 'utf8', (err, data) => {
   } else {
     try {
       adminList = JSON.parse(data);
-      console.log(adminList);
+      //console.log(adminList);
     } catch (error) {
       console.error('Error parsing JSON data:', error);
     }
@@ -30,26 +30,27 @@ app.use(cors()); // Använd cors middleware
 function saveData(data) {
   const jsonObject = data;
   const jsonString = JSON.stringify(jsonObject);
+  let returnCode = 0;
 
-  fs.writeFile('brasse-pc.eu/src/assets/json/data.json', jsonString, (err) => {
-    console.log(jsonString);
-    if (err) {
-      console.error('Det uppstod ett fel vid skrivning till filen:', err);
-      return 500;
-    } else {
-      console.log('JSON-objektet har sparats i filen data.json');
-      return  200;
-    }
-  });
-};
+  try {
+    fs.writeFileSync('brasse-pc.eu/src/assets/json/data.json', jsonString);
+    console.log('JSON-objektet har sparats i filen data.json');
+    returnCode = 200;
+  } catch (err) {
+    console.error('Det uppstod ett fel vid skrivning till filen:', err);
+    returnCode = 500;
+  }
+
+  return returnCode;
+}
 
 function isUserAAdmin(payload) {
   let isAdmin = false;
-  console.log("kolla om du är admin");
-  console.log("Storlek: " + adminList.users.length);
+  //console.log("kolla om du är admin");
+  //console.log("Storlek: " + adminList.users.length);
   for (let index = 0; index < adminList.users.length; index++) {
     const user = adminList.users[index];
-    console.log(user);
+    //console.log(user);
     if (user.name === payload.name && user.email === payload.email) {
       isAdmin = true;
     }
@@ -61,7 +62,7 @@ function isUserAAdmin(payload) {
 app.post('/save', async (req, res) => {
   const token = req.body.token;
   const data = req.body.data;
-  console.log("admin list : " + adminList.users);
+  //console.log("admin list : " + adminList.users);
 
   //console.log("data: " + JSON.stringify(data));
   //console.log("token: " + token);
@@ -79,8 +80,10 @@ app.post('/save', async (req, res) => {
       console.log("Is admin: True");
       const returnCode = saveData(data);
       if (returnCode === 200) {
+        //console.log("kod: " + returnCode + " Validering lyckades and saved to server");
         return res.status(200).json({ message: 'Validering lyckades and saved to server' });
       } else {
+        //console.log("kod: " + returnCode + " Validering lyckades but error saveing to server");
         return res.status(returnCode).json({ message: 'Validering lyckades but error saveing to server' });
       }
     } else {
