@@ -9,7 +9,6 @@ const props = defineProps<{
     arr: Array<Item>
 }>()
 
-// let newItem: Item = {name: "", cost: 0, url: "" };
 const emit = defineEmits(['addItem', 'delItem', 'ediItem'])
 const showAddControl = ref(false);
 const showEditControl = ref(false);
@@ -25,9 +24,6 @@ function delItem(index: number) {
 }
 
 function editItem(index: number, item: Item) {
-    console.log("edit OList del nr: " + index);
-    console.log("nam: ", item.name);
-    console.log("------------");
     emit("ediItem", index, item);
 }
 
@@ -40,13 +36,15 @@ function toggelAdd() {
     showAddControl.value = !showAddControl.value;
 }
 
+const startEditItem: Item = { name: "", cost: 0, url: "" };
+
 </script>
 
 <template>
     <div class="greetings">
         <h1 class="green">{{ msg }}</h1>
         <div class="control">
-            <buttonComp @klick-Event="toggelAdd" label="Add" class="item" />
+            <buttonComp @klick-Event="toggelAdd"  label="Add"  class="item" />
             <buttonComp @klick-Event="toggelEdit" label="Edit" class="item" />
         </div>
 
@@ -56,25 +54,25 @@ function toggelAdd() {
         </div>
     </div>
     <div>
-        <EditRow @addItem="addItem" v-if="showAddControl" />
+        <EditRow :startItem="startEditItem" @addItem="addItem" v-if="showAddControl" />
     </div>
 </template>
 
 <style scoped>
 .editRow {
-    margin-bottom: 10px;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    border-radius: 8px;
+    margin-bottom:    10px;
+    padding-top:      2px;
+    padding-bottom:   2px;
+    border-radius:    8px;
 }
 
 .control {
-    margin-bottom: 10px;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    border-radius: 8px;
+    margin-bottom:    10px;
+    padding-top:      2px;
+    padding-bottom:   2px;
+    border-radius:    8px;
     background-color: #bebebe;
-    width: 80%;
+    width:            80%;
 }
 
 .item {

@@ -5,7 +5,8 @@ const props = defineProps({
   width: {
     type: String,
     default: "100px"
-  }
+  },
+  startString: String
 });
 
 const customStyle = reactive({
@@ -15,7 +16,7 @@ const customStyle = reactive({
 customStyle.width = props.width || "10px";
 
 const emits = defineEmits(["getString"]);
-let inputValue: string = "";
+let inputValue: string = props.startString || "";
 
 </script>
 <template>

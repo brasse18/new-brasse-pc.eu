@@ -2,10 +2,7 @@
 import { onMounted, ref } from 'vue'
 import OList from '../components/OList.vue'
 import { DataHandler } from '../components/DataHandler'
-//import savedData from '../assets/json/data.json'
 import type { Item } from '../components/ItamObjekt'
-//import { postData} from "../components/APIHandler"
-//import { getCookie } from '../components/CookiHandler'
 
 const dataHandler: DataHandler = new DataHandler;
 const listKey = ref(0);
@@ -25,10 +22,6 @@ function delItem(index: number) {
 }
 
 function editItem(index: number, item: Item) {
-    console.log("Item: ");
-    console.log("name: ", item.name);
-    console.log("cost: ", item.cost);
-    console.log("url: ", item.url);
     dataHandler.editItem(index, item);
 }
 
@@ -55,7 +48,6 @@ onMounted(() => {
 p {
     font-family: 'Junicode', sans-serif;
 }
-
 
 .item {
     display: inline-block;

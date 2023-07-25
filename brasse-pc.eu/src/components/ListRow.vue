@@ -4,24 +4,25 @@ import buttonComp from "../components/Button.vue"
 import EditRow from './EditRow.vue';
 import { ref } from 'vue'
 
-defineProps<{
+const prop = defineProps<{
     id: number
     item: Item
     edit: boolean
 }>()
 const editItemRow = ref(false);
-const emit = defineEmits(['edi-Event']);
+const emit = defineEmits(['edi-Event', 'del-Event']);
 function toggelEdit() {
     editItemRow.value = !editItemRow.value;
 }
 
-function editItem(index: number, item: Item) {
-    console.log("Item: from ListItem");
-    console.log("name: ", item.name);
-    console.log("cost: ", item.cost);
-    console.log("url: ", item.url);
-    emit('edi-Event', index, item);
+function editItem(item: Item) {
+    if (item !== undefined) {
+    emit('edi-Event', prop.id, item);
+    } else {
+        console.log("item from list row is undifind");
+    }
 }
+
 </script>
 
 <template>
@@ -37,10 +38,11 @@ function editItem(index: number, item: Item) {
         </template>
     </template>
     <template v-else>
-        <EditRow @addItem="editItem" />
+        <EditRow :startItem="item" @addItem="editItem" />
+        <buttonComp @klick-Event="toggelEdit" class="item" label="Exit" />
     </template>
     <div class="item" v-if="edit, !editItemRow">
-        <buttonComp @klick-Event="$emit('del-Event', id)" label="Del" class="item" />
+        <buttonComp @klick-Event="emit('del-Event', id)" label="Del" class="item" />
         <buttonComp @klick-Event="toggelEdit" label="Edit" class="item" />
         <buttonComp label="Upp" class="item" />
         <buttonComp label="Down" class="item" />
