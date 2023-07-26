@@ -20,3 +20,20 @@ export const postData = async (saveData: JSON, inToken: string) => {
     // Hantera fel om sådana uppstår
   }
 };
+
+export const validate = async (inToken: string) => {
+  const url = server + ":" + port + "/save";
+  console.log(url);
+  const data = {
+    token: inToken
+  };
+
+  try {
+    const response = await axios.post(url, data);
+    console.log('Svar från servern:', response.data);
+    // Gör något med svaret från servern om så behövs
+  } catch (error) {
+    console.error('Fel vid anrop till servern:', error);
+    // Hantera fel om sådana uppstår
+  }
+};

@@ -28,10 +28,10 @@ function setNewUrl(input: string) {
 
 </script>
 <template>
-    <inputComp :startString="startItem.name"  @get-string="setNewName" width="100%" class="item string" />
+    <inputComp :startString="startItem.name"          @get-string="setNewName" width="100%" class="item string" />
     <inputComp :startString="String(startItem.cost)"  @get-string="setNewCost" width="100%" class="item cost" />
-    <inputComp :startString="startItem.url"  @get-string="setNewUrl"  width="100%" class="item string" />
-    <buttonComp @klick-Event="addItem"   label="Save" class="item" />
+    <inputComp :startString="startItem.url"           @get-string="setNewUrl"  width="100%" class="item string" />
+    <buttonComp @klick-Event="addItem" label="Save" class="item" />
 </template>
 
 <style scoped>

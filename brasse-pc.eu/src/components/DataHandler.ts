@@ -3,8 +3,6 @@ import { postData } from '../components/APIHandler';
 import dataFile from '../assets/json/data.json';
 import { getCookie } from '../components/CookiHandler';
 
-
-
 export class DataHandler {
     public itemList: Array<Item> = [];
 

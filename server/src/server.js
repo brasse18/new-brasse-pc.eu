@@ -59,14 +59,31 @@ function isUserAAdmin(payload) {
   return isAdmin;
 };
 
+app.post('/validate', async (req, res) => {
+  const token = req.body.token;
+  if (!token) {
+    return res.status(400).json({ error: 'Ingen token tillhandahållen.', dataBody: req.body });
+  }
+
+  try {
+    const payload = await validateGoogleToken(token);
+    // Om valideringen lyckades kan du utföra dina handlingar här, till exempel inloggningslogik, registrering osv.
+    console.log('Validering lyckades. Användarinfo:', payload);
+
+    if (isUserAAdmin(payload)) {
+      console.log("Is admin: True");
+    } else {
+      console.log("Is admin: False");
+      return res.status(402).json({ message: 'User is not a Admin' });
+    }
+  } catch (error) {
+    return res.status(401).json({ error: error.message });
+  }
+});
+
 app.post('/save', async (req, res) => {
   const token = req.body.token;
   const data = req.body.data;
-  //console.log("admin list : " + adminList.users);
-
-  //console.log("data: " + JSON.stringify(data));
-  //console.log("token: " + token);
-  //console.log(req.body);
   if (!token) {
     return res.status(400).json({ error: 'Ingen token tillhandahållen.', dataBody: req.body });
   }
@@ -80,18 +97,14 @@ app.post('/save', async (req, res) => {
       console.log("Is admin: True");
       const returnCode = saveData(data);
       if (returnCode === 200) {
-        //console.log("kod: " + returnCode + " Validering lyckades and saved to server");
         return res.status(200).json({ message: 'Validering lyckades and saved to server' });
       } else {
-        //console.log("kod: " + returnCode + " Validering lyckades but error saveing to server");
         return res.status(returnCode).json({ message: 'Validering lyckades but error saveing to server' });
       }
     } else {
       console.log("Is admin: False");
       return res.status(402).json({ message: 'User is not a Admin' });
-    }
-
-    
+    }  
   } catch (error) {
     return res.status(401).json({ error: error.message });
   }

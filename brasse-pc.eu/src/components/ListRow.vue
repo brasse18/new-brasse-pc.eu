@@ -10,16 +10,25 @@ const prop = defineProps<{
     edit: boolean
 }>()
 const editItemRow = ref(false);
-const emit = defineEmits(['edi-Event', 'del-Event']);
+//const emit = defineEmits(['edi-Event', 'del-Event']);
+const emit = defineEmits(['ediEvent', 'delEvent'])
 function toggelEdit() {
     editItemRow.value = !editItemRow.value;
 }
 
 function editItem(item: Item) {
     if (item !== undefined) {
-    emit('edi-Event', prop.id, item);
+    emit('ediEvent', item);
     } else {
         console.log("item from list row is undifind");
+    }
+}
+
+function delItem() {
+    if (prop.id !== undefined) {
+    emit('delEvent', prop.id);
+    } else {
+        console.log("id from list row is undifind");
     }
 }
 
@@ -42,7 +51,7 @@ function editItem(item: Item) {
         <buttonComp @klick-Event="toggelEdit" class="item" label="Exit" />
     </template>
     <div class="item" v-if="edit, !editItemRow">
-        <buttonComp @klick-Event="emit('del-Event', id)" label="Del" class="item" />
+        <buttonComp @klick-Event="delItem" label="Del" class="item" />
         <buttonComp @klick-Event="toggelEdit" label="Edit" class="item" />
         <buttonComp label="Upp" class="item" />
         <buttonComp label="Down" class="item" />
@@ -53,7 +62,6 @@ function editItem(item: Item) {
 .item {
     display: inline-block;
     padding-inline: 10px;
-
 }
 
 .cost {
