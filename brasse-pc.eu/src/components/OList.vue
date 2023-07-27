@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import ListRow from './ListRow.vue'
 import type { Item } from '../components/ItamObjekt'
 import buttonComp from "../components/Button.vue"
 import EditRow from './EditRow.vue'
+import { getCookie } from '../components/CookiHandler';
+import { validate } from '../components/APIHandler';
+import type { promises } from 'dns'
 const props = defineProps<{
     msg: string
     arr: Array<Item>
@@ -13,8 +16,24 @@ const emit = defineEmits(['addItem', 'delItem', 'ediItem']);
 const startEditItem: Item = { name: "", cost: 0, url: "" };
 const showAddControl = ref(false);
 const showEditControl = ref(false);
+const showEditControlKey = ref(0);
 const editControlKey = ref(0);
-const arrKey = ref(0);
+const showEditControlPanel = ref(false);
+const showEditControlPanelKey = ref(0);
+
+async function checkAdmin(): promises<boolean> {
+    if (getCookie("token") !== "") {
+        showEditControlPanel.value = await validate(getCookie("token"));
+        //console.log("hhhhh: ", await validate(getCookie("token")));
+        //console.log("testend har körst " + showEditControlPanel.value);
+        showEditControlPanelKey.value += 1;
+    }
+    return showEditControlPanel.value;
+}
+
+onMounted(async () => {
+    await checkAdmin();
+});
 
 function addItem(newItem: Item) {
     emit('addItem', newItem);
@@ -45,14 +64,17 @@ function toggleAdd() {
 
 <template>
     <div class="greetings">
-        <h1 class="green">{{ msg }}</h1>
-        <div class="control">
-            <buttonComp @klick-Event="toggleAdd" label="Add" class="item" />
-            <buttonComp @klick-Event="toggleEdit" label="Edit" class="item" />
-        </div>
+        <h1 class="green">{{ props.msg }}</h1>
+        <template v-if="showEditControlPanel">
+            <div class="control">
+                <buttonComp @klick-Event="toggleAdd" label="Add" class="item" />
+                <buttonComp @klick-Event="toggleEdit" label="Edit" class="item" />
+            </div>
+        </template>
 
-        <div v-for="(item, index) in arr" :key="index">
-            <ListRow @delEvent="delItem" @ediEvent="editItem" :item="item" :id="index" :edit="showEditControl" />
+        <div v-for="(item, index) in props.arr" :key="index">
+            <ListRow @delEvent="delItem" @ediEvent="editItem" :item="item" :id="index" :edit="showEditControl"
+                :key="showEditControlKey" />
         </div>
     </div>
     <template v-if="showAddControl">

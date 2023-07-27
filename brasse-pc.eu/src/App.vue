@@ -10,7 +10,7 @@ let loginStatus: boolean = false;
 let credential: string = "";
 const componentKey = ref(0);
 if (getCookie("token") === "") {
-  setCookie('token', "", 7);
+  setCookie('token', "", 1);
 }
 
 const token = ref(getCookie('token'));
@@ -32,6 +32,10 @@ watch(token, (newValue, oldValue) => {
   console.log('token ändrades från', oldValue, 'till', newValue);
 });
 
+function loggedOut() {
+  router.push('/login');
+}
+
 
 </script>
 
@@ -39,7 +43,7 @@ watch(token, (newValue, oldValue) => {
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
-    <Menue id="Menue" :key="componentKey" />
+    <Menue @loggedOut="loggedOut" id="Menue" :key="componentKey" />
   </header>
 
   <RouterView @loggedIn="setOnlineStatus" @credential="saveCredential" id="RouterView" />

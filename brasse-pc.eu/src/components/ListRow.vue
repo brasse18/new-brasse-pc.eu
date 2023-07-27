@@ -50,7 +50,7 @@ function delItem() {
         <EditRow :startItem="item" @addItem="editItem" />
         <buttonComp @klick-Event="toggelEdit" class="item" label="Exit" />
     </template>
-    <div class="item" v-if="edit, !editItemRow">
+    <div class="item" v-if="edit && !editItemRow">
         <buttonComp @klick-Event="delItem" label="Del" class="item" />
         <buttonComp @klick-Event="toggelEdit" label="Edit" class="item" />
         <buttonComp label="Upp" class="item" />

@@ -17,7 +17,6 @@ function addItem(item: Item) {
 }
 
 function delItem(index: number) {
-    console.log("lsakjlaksjdlkajsldkjas");
     dataHandler.delItem(index);
     updateList();
 }

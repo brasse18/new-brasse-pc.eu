@@ -69,9 +69,11 @@ app.post('/validate', async (req, res) => {
     const payload = await validateGoogleToken(token);
     // Om valideringen lyckades kan du utföra dina handlingar här, till exempel inloggningslogik, registrering osv.
     console.log('Validering lyckades. Användarinfo:', payload);
+    console.log('Validate-----------------------');
 
     if (isUserAAdmin(payload)) {
       console.log("Is admin: True");
+      return res.status(200).json({ message: 'User is Admin' });
     } else {
       console.log("Is admin: False");
       return res.status(402).json({ message: 'User is not a Admin' });

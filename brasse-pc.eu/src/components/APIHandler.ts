@@ -13,7 +13,7 @@ export const postData = async (saveData: JSON, inToken: string) => {
 
   try {
     const response = await axios.post(url, data);
-    console.log('Svar från servern:', response.data);
+    //console.log('Svar från servern:', response.data);
     // Gör något med svaret från servern om så behövs
   } catch (error) {
     console.error('Fel vid anrop till servern:', error);
@@ -21,8 +21,8 @@ export const postData = async (saveData: JSON, inToken: string) => {
   }
 };
 
-export const validate = async (inToken: string) => {
-  const url = server + ":" + port + "/save";
+export const validate = async (inToken: string): Promise<boolean> => {
+  const url = server + ":" + port + "/validate";
   console.log(url);
   const data = {
     token: inToken
@@ -30,10 +30,11 @@ export const validate = async (inToken: string) => {
 
   try {
     const response = await axios.post(url, data);
-    console.log('Svar från servern:', response.data);
-    // Gör något med svaret från servern om så behövs
+    //console.log('Svar från servern:', response.data);
+    //console.log('Responsnummer:', response.status);
+    return true;
   } catch (error) {
     console.error('Fel vid anrop till servern:', error);
-    // Hantera fel om sådana uppstår
+    return false;
   }
 };

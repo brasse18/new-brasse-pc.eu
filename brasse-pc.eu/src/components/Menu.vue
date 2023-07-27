@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import Rubrik from './Rubrik.vue'
 import Routs from './Routs.vue'
+
+const emit = defineEmits(['loggedOut']);
+function loggedOut() {
+  emit('loggedOut');
+}
 </script>
 
 <template>
     <div class="wrapper">
       <Rubrik msg="Brasses Server" />
-      <Routs class="Routs"/>
+      <Routs @loggedOut="loggedOut" class="Routs"/>
     </div>
 </template>
 

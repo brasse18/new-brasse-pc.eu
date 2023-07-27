@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import {  ref, watch } from 'vue'
-import { getCookie, getUserNameFromCookie, removeToken} from '../components/CookiHandler'
+import { ref } from 'vue'
+import { getCookie, getUserNameFromCookie, removeToken } from '../components/CookiHandler'
 
+const emit = defineEmits(['loggedOut']);
 const isNotLogdin = ref(false);
 const showMenu = ref(false);
-const userMenuKey = ref(0);
+const isNotLogdinKey = ref(0);
 
 if (getCookie("token") === "") {
   isNotLogdin.value = true;
@@ -17,32 +18,41 @@ function toggelUserMenu() {
 }
 
 function Logout() {
-  isNotLogdin.value = false;
+  isNotLogdin.value = true;
   removeToken();
+  isNotLogdinKey.value += 1;
+  console.log("logout");
+  emit('loggedOut');
 }
 
-watch([isNotLogdin, showMenu], () => {
-  userMenuKey.value += 1;
-});
 </script>
 
 <template>
-  <nav :key="userMenuKey">
+  <nav>
     <RouterLink to="/">Home</RouterLink>
     <RouterLink to="/about">About</RouterLink>
     <RouterLink to="/list">List</RouterLink>
-    <RouterLink to="/login" v-if="isNotLogdin">Login</RouterLink>
-    <div class="user-menue" v-if="!isNotLogdin" @click="toggelUserMenu()">{{ getUserNameFromCookie() }}</div>
-    <div class="dropdown-menu" v-if="showMenu">
-    <ul>
-      <li><a @click="Logout">Logout</a></li>
-    </ul>
-  </div>
+    <RouterLink to="/login" v-if="isNotLogdin" class="login">Login</RouterLink>
+    <template v-if="!isNotLogdin">
+      <div class="user-menue" @click="toggelUserMenu()">{{ getUserNameFromCookie()
+      }}
+      </div>
+      <div class="dropdown-menu" v-if="showMenu">
+        <ul>
+          <li><a @click="Logout">Logout</a></li>
+        </ul>
+      </div>
+    </template>
   </nav>
 </template>
 
 <style scoped>
 .user-menue {
+  float: right;
+  padding: 0 1rem;
+}
+
+.login {
   float: right;
   padding: 0 1rem;
 }
@@ -91,9 +101,7 @@ nav {
 }
 
 /* Dölj menyns innehåll som standard */
-.dropdown-menu ul {
-
-}
+.dropdown-menu ul {}
 
 /* Visa menyns innehåll när musen hovrar över menyn */
 .dropdown-menu:hover ul {
