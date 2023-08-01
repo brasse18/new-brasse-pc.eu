@@ -38,7 +38,33 @@ export function getCookie(token: string): string {
     return name;
   }
 
+  export function getUserImageFromCookie(): string {
+
+    let token: string = getCookie("token");
+    const decodedToken = jwt_decode(token);
+    //console.log(decodedToken);
+    const { picture } = decodedToken;
+
+    return picture;
+  }
+
   export function removeToken() {
     deleteCookie("token");
+  }
+
+  export function isCookieExpired(cookieName: string) {
+    const cockiDate = getCookieExpirationDate(cookieName);
+    console.log("dat: " + cockiDate);
+    return false;
+  }
+
+  function getCookieExpirationDate(cookieName: string) {
+    const cookieValue = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith(`${cookieName}=`));
+
+      console.log("men duy då kaka: " + cookieValue)
+  
+    return null;
   }
 

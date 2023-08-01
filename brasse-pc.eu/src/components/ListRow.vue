@@ -59,6 +59,9 @@ function delItem() {
 </template>
 
 <style scoped>
+.secLine {
+    background-color: grey;
+}
 .item {
     display: inline-block;
     padding-inline: 10px;

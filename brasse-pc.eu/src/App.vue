@@ -22,7 +22,7 @@ function setOnlineStatus(status: boolean) {
 function saveCredential(inCredential: any) {
   //console.log("Authorisation code", inCredential);
   credential = inCredential;
-  setCookie("token", inCredential, 7);
+  setCookie("token", inCredential, 1);
   router.push('/list');
   componentKey.value += 1;
 }
@@ -35,22 +35,19 @@ watch(token, (newValue, oldValue) => {
 function loggedOut() {
   router.push('/login');
 }
-
-
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+      <header>
+        <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
-    <Menue @loggedOut="loggedOut" id="Menue" :key="componentKey" />
-  </header>
+        <Menue @loggedOut="loggedOut" id="Menue" :key="componentKey" />
+      </header>
 
-  <RouterView @loggedIn="setOnlineStatus" @credential="saveCredential" id="RouterView" />
+      <RouterView @loggedIn="setOnlineStatus" @credential="saveCredential" id="RouterView" />
 </template>
 
 <style scoped>
-
 header {
   line-height: 1.5;
   display: flex;

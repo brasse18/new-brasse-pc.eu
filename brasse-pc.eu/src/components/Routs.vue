@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
-import { getCookie, getUserNameFromCookie, removeToken } from '../components/CookiHandler'
+import { getCookie, getUserNameFromCookie, getUserImageFromCookie, removeToken } from '../components/CookiHandler'
 
 const emit = defineEmits(['loggedOut']);
 const isNotLogdin = ref(false);
@@ -30,12 +30,17 @@ function Logout() {
 <template>
   <nav>
     <RouterLink to="/">Home</RouterLink>
-    <RouterLink to="/about">About</RouterLink>
-    <RouterLink to="/list">List</RouterLink>
+    <RouterLink to="/about">Om mig</RouterLink>
+    <RouterLink to="/servers">Spel Servers</RouterLink>
+    <RouterLink to="/downloade">Nerladning</RouterLink>
+    <RouterLink to="/list">Önskelista</RouterLink>
     <RouterLink to="/login" v-if="isNotLogdin" class="login">Login</RouterLink>
     <template v-if="!isNotLogdin">
-      <div class="user-menue" @click="toggelUserMenu()">{{ getUserNameFromCookie()
-      }}
+      
+      <div class="user-menue" @click="toggelUserMenu()">
+      <img :src="getUserImageFromCookie()" alt="My Image" class="rounded-image user-menue">
+      {{ getUserNameFromCookie()}}
+      
       </div>
       <div class="dropdown-menu" v-if="showMenu">
         <ul>
@@ -47,6 +52,12 @@ function Logout() {
 </template>
 
 <style scoped>
+.rounded-image {
+  margin-top: -13px;
+  width: 80px; /* Sätt bilden till att fylla hela förälderns bredd */
+  height: auto; /* Automatisk höjd för att behålla bildens proportioner */
+  border-radius: 50%; /* Gör bilden rund genom att sätta border-radius till 50% */
+}
 .user-menue {
   float: right;
   padding: 0 1rem;

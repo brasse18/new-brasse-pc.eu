@@ -74,7 +74,7 @@ function toggleAdd() {
 
         <div v-for="(item, index) in props.arr" :key="index">
             <ListRow @delEvent="delItem" @ediEvent="editItem" :item="item" :id="index" :edit="showEditControl"
-                :key="showEditControlKey" />
+                :key="showEditControlKey"/>
         </div>
     </div>
     <template v-if="showAddControl">
@@ -83,6 +83,7 @@ function toggleAdd() {
 </template>
 
 <style scoped>
+
 .editRow {
     margin-bottom: 10px;
     padding-top: 2px;
