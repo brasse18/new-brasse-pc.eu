@@ -2,5 +2,9 @@
   "dependencies": {
     "node": "^20.4.0",
     "vue": "^3.3.4"
+  },
+  "scripts": {
+    "start:client": "npm run --prefix ./brasse-pc.eu start",
+    "start:server": "nodejs ./server/src/server.js"
   }
 }

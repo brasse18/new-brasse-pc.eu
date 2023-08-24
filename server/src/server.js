@@ -4,7 +4,7 @@ const fs = require('fs');
 const validateGoogleToken = require('./validation');
 
 // Filvägen till JSON-filen
-const filePath = './server/src/admin.json';
+const filePath = './src/admin.json';
 let adminList;
 
 const app = express();
