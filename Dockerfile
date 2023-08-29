@@ -5,7 +5,9 @@ FROM node:14
 RUN mkdir -p /usr/src/app/brasse-pc.eu
 RUN mkdir -p /usr/src/app/server
 
+# Kopiera skriptet och gör det körbart
 COPY run-all.sh /usr/src/app/run-all.sh
+RUN chmod +x /usr/src/app/run-all.sh
 
 # Kopiera package.json och package-lock.json separat och installera beroenden
 COPY brasse-pc.eu/package*.json /usr/src/app/brasse-pc.eu/
@@ -29,4 +31,4 @@ EXPOSE 3000
 EXPOSE 5173
 
 # Starta apparna när kontainern körs
-CMD ["bash", "./run-all.sh"]
+CMD ["/bin/bash"]
