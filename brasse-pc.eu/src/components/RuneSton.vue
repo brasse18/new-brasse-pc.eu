@@ -9,6 +9,9 @@ const pathMid = "M 1 62 c 112 26 138 11 353 -6";
 const pathEnd = "M 1 62 c 54 -5 38 41 33 65 ";
 const pathHuvud = "M  1 62 c -16 -6 -33 -8 -47 -16 c -49 -30 -44 -36 6 -6 c -17.3333 -11 -51 -29 -66 -27 c -5 1 -11 -8 -9 -14 c 6 -4 8 0 12 0 c 10 2 15 -2 39 -5 c 87 -10 47.3333 31.3333 70 48 m -90 -35 c 48 -16 77 -2 68 12 c -12 27 -56 -10 -68 -12 "
 // m 13 70 c 0 -58 14 -63 79 -53 c 112 26 138 11 355 -6 c 54 -5 38 41 33 65 M 0 70 C 0 0 27 -7 95 4 C 203 30 231 15 447 0 C 521 -13 499 50 496 76 M 496 77
+  // to fix css look at this
+  // https://css-tricks.com/snippets/css/complete-guide-grid/
+  // https://css-tricks.com/snippets/css/a-guide-to-flexbox/
 </script>
 
 <template>
